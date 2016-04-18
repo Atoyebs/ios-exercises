@@ -6,9 +6,9 @@
 //  Copyright © 2016 Bloc. All rights reserved.
 //
 
-#import "ViewController.h"
+#import "BLCViewController.h"
 
-@interface ViewController ()
+@interface BLCViewController ()
 
 @property (weak, nonatomic) IBOutlet UITextField *beerPercentTextField;
 @property (weak, nonatomic) IBOutlet UISlider *beerCountSlider;

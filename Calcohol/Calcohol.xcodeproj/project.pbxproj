@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		8176D1331CC140A20047F87F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8176D1321CC140A20047F87F /* main.m */; };
 		8176D1361CC140A20047F87F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8176D1351CC140A20047F87F /* AppDelegate.m */; };
-		8176D1391CC140A20047F87F /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8176D1381CC140A20047F87F /* ViewController.m */; };
+		8176D1391CC140A20047F87F /* BLCViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8176D1381CC140A20047F87F /* BLCViewController.m */; };
 		8176D13C1CC140A20047F87F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8176D13A1CC140A20047F87F /* Main.storyboard */; };
 		8176D13E1CC140A20047F87F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8176D13D1CC140A20047F87F /* Assets.xcassets */; };
 		8176D1411CC140A20047F87F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8176D13F1CC140A20047F87F /* LaunchScreen.storyboard */; };
@@ -39,8 +39,8 @@
 		8176D1321CC140A20047F87F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8176D1341CC140A20047F87F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		8176D1351CC140A20047F87F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		8176D1371CC140A20047F87F /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		8176D1381CC140A20047F87F /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		8176D1371CC140A20047F87F /* BLCViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLCViewController.h; sourceTree = "<group>"; };
+		8176D1381CC140A20047F87F /* BLCViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLCViewController.m; sourceTree = "<group>"; };
 		8176D13B1CC140A20047F87F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8176D13D1CC140A20047F87F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8176D1401CC140A20047F87F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -103,8 +103,8 @@
 			children = (
 				8176D1341CC140A20047F87F /* AppDelegate.h */,
 				8176D1351CC140A20047F87F /* AppDelegate.m */,
-				8176D1371CC140A20047F87F /* ViewController.h */,
-				8176D1381CC140A20047F87F /* ViewController.m */,
+				8176D1371CC140A20047F87F /* BLCViewController.h */,
+				8176D1381CC140A20047F87F /* BLCViewController.m */,
 				8176D13A1CC140A20047F87F /* Main.storyboard */,
 				8176D13D1CC140A20047F87F /* Assets.xcassets */,
 				8176D13F1CC140A20047F87F /* LaunchScreen.storyboard */,
@@ -270,7 +270,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8176D1391CC140A20047F87F /* ViewController.m in Sources */,
+				8176D1391CC140A20047F87F /* BLCViewController.m in Sources */,
 				8176D1361CC140A20047F87F /* AppDelegate.m in Sources */,
 				8176D1331CC140A20047F87F /* main.m in Sources */,
 			);
@@ -498,6 +498,7 @@
 				8176D15D1CC140A20047F87F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		8176D15E1CC140A20047F87F /* Build configuration list for PBXNativeTarget "CalcoholTests" */ = {
 			isa = XCConfigurationList;
@@ -506,6 +507,7 @@
 				8176D1601CC140A20047F87F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		8176D1611CC140A20047F87F /* Build configuration list for PBXNativeTarget "CalcoholUITests" */ = {
 			isa = XCConfigurationList;
@@ -514,6 +516,7 @@
 				8176D1631CC140A20047F87F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
