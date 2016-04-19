@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8122732D1CC5882F0009D122 /* BLCMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8122732C1CC5882F0009D122 /* BLCMainViewController.m */; };
 		8176D1331CC140A20047F87F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8176D1321CC140A20047F87F /* main.m */; };
 		8176D1361CC140A20047F87F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8176D1351CC140A20047F87F /* AppDelegate.m */; };
 		8176D1391CC140A20047F87F /* BLCViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8176D1381CC140A20047F87F /* BLCViewController.m */; };
@@ -35,6 +36,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8122732B1CC5882F0009D122 /* BLCMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLCMainViewController.h; sourceTree = "<group>"; };
+		8122732C1CC5882F0009D122 /* BLCMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLCMainViewController.m; sourceTree = "<group>"; };
 		8176D12E1CC140A20047F87F /* Calcohol.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Calcohol.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8176D1321CC140A20047F87F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8176D1341CC140A20047F87F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -146,6 +149,8 @@
 				8176D1381CC140A20047F87F /* BLCViewController.m */,
 				819B8ECF1CC52B96007E3C2C /* BLCWhiskeyViewController.h */,
 				819B8ED01CC52B96007E3C2C /* BLCWhiskeyViewController.m */,
+				8122732B1CC5882F0009D122 /* BLCMainViewController.h */,
+				8122732C1CC5882F0009D122 /* BLCMainViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -282,6 +287,7 @@
 				8176D1391CC140A20047F87F /* BLCViewController.m in Sources */,
 				819B8ED11CC52B96007E3C2C /* BLCWhiskeyViewController.m in Sources */,
 				8176D1361CC140A20047F87F /* AppDelegate.m in Sources */,
+				8122732D1CC5882F0009D122 /* BLCMainViewController.m in Sources */,
 				8176D1331CC140A20047F87F /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

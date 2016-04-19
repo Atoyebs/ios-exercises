@@ -23,6 +23,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
+    self.title = NSLocalizedString(@"Wine", @"wine");
+    
     self.view.backgroundColor = [UIColor lightGrayColor];
     
     self.beerPercentTextField.delegate = self;
@@ -181,6 +183,8 @@
     
     UIScreen *currentScreen = [UIScreen mainScreen];
     
+    CGFloat navigationBarTopHeight = 44.0;
+    
     CGRect screenSize = currentScreen.bounds;
     
     int maximumItemHeight = screenSize.size.height/12.9;
@@ -190,7 +194,7 @@
     CGFloat itemWidth = viewWidth - padding - padding;
     CGFloat itemHeight = maximumItemHeight;
     
-    self.beerPercentTextField.frame = CGRectMake(padding, (padding + (padding/2)), itemWidth, itemHeight);
+    self.beerPercentTextField.frame = CGRectMake(padding, (padding + navigationBarTopHeight + padding/2), itemWidth, itemHeight);
     
     CGFloat bottomOfTextField = CGRectGetMaxY(self.beerPercentTextField.frame);
     

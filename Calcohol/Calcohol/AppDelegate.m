@@ -21,9 +21,13 @@
     
     // Override point for customization after application launch.
     
-    BLCViewController *viewController = [[BLCViewController alloc] init];
+//    BLCViewController *viewController = [[BLCViewController alloc] init];
+
+    BLCMainViewController *viewController = [[BLCMainViewController alloc] init];
     
-    self.window.rootViewController = viewController;
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:viewController];
+    
+    self.window.rootViewController = navigationController;
     
     [self.window makeKeyAndVisible];
     

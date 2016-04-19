@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "BLCViewController.h"
+#import "BLCMainViewController.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
