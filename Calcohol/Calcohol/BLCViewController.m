@@ -18,14 +18,30 @@
 
 @implementation BLCViewController
 
+
+-(instancetype)init {
+    
+    self = [super init];
+    
+    if (self) {
+        self.title = NSLocalizedString(@"Wine", @"wine");
+    }
+    
+    [self.tabBarItem setTitlePositionAdjustment:UIOffsetMake(0, -18)];
+    
+    return self;
+}
+
+
+
 - (void)viewDidLoad {
     
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-    self.title = NSLocalizedString(@"Wine", @"wine");
+    self.view.backgroundColor = [UIColor colorWithRed:0.741 green:0.925 blue:0.714 alpha:1];
     
-    self.view.backgroundColor = [UIColor lightGrayColor];
+//    self.view.backgroundColor = [UIColor lightGrayColor];
     
     self.beerPercentTextField.delegate = self;
     
@@ -118,6 +134,8 @@
 //    [self.beerPercentTextField resignFirstResponder];
     
     self.currentBeerCountLabel.text = [NSString stringWithFormat:@"No. Of Beers: %f", sender.value];
+    
+    [self.tabBarItem setBadgeValue:[NSString stringWithFormat:@"%d", (int) sender.value]];
 }
 
 

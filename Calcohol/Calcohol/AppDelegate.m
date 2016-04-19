@@ -21,18 +21,36 @@
     
     // Override point for customization after application launch.
     
-//    BLCViewController *viewController = [[BLCViewController alloc] init];
-
-    BLCMainViewController *viewController = [[BLCMainViewController alloc] init];
+    BLCViewController *wineVC = [[BLCViewController alloc] init];
     
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:viewController];
+    BLCWhiskeyViewController *whiskeyVC = [[BLCWhiskeyViewController alloc] init];
     
-    self.window.rootViewController = navigationController;
+    UITabBarController *tabBarVC = [[UITabBarController alloc] init];
+    
+    tabBarVC.delegate = self;
+    
+    tabBarVC.viewControllers = @[wineVC, whiskeyVC];
+    
+    self.window.rootViewController = tabBarVC;
     
     [self.window makeKeyAndVisible];
     
     return YES;
 }
+
+
+
+
+
+-(void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
+    
+    NSLog(@"Selected View Controller Is: %@", viewController.title);
+    
+}
+
+
+
+
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
