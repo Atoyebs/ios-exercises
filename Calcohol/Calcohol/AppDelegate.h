@@ -7,8 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BLCViewController.h"
+#import "BLCMainViewController.h"
+#import "BLCWhiskeyViewController.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate, UITabBarControllerDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 
