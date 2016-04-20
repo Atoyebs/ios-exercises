@@ -11,5 +11,11 @@
 @interface BLCWebBrowserViewController : UIViewController
 
 
+
+/** @brief clears the web browser history
+ * @return void
+ */
+-(void)resetView;
+
 @end
 
