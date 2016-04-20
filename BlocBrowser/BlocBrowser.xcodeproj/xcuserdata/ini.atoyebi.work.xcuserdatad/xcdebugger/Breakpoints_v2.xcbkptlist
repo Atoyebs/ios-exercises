@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BlocBrowser/BLCWebBrowserViewController.m"
-            timestampString = "482795231.499658"
+            timestampString = "482844583.38053"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "247"
-            endingLineNumber = "247"
+            startingLineNumber = "273"
+            endingLineNumber = "273"
             landmarkName = "-constructGoogleSearchURLStringFromTextField"
             landmarkType = "5">
          </BreakpointContent>
