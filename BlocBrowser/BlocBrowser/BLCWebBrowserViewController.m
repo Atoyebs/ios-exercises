@@ -7,18 +7,21 @@
 //
 
 #import "BLCWebBrowserViewController.h"
+#import "BLCAwesomeFloatingToolbar.h"
 
-@interface BLCWebBrowserViewController () <UIWebViewDelegate, UITextFieldDelegate>
+#define kBLCWebBrowserBackString NSLocalizedString(@"Back", @"Back command")
+#define kBLCWebBrowserForwardString NSLocalizedString(@"Forward", @"Forward command")
+#define kBLCWebBrowserStopString NSLocalizedString(@"Stop", @"Stop command")
+#define kBLCWebBrowserRefreshString NSLocalizedString(@"Refresh", @"Reload command")
+
+@interface BLCWebBrowserViewController () <UIWebViewDelegate, UITextFieldDelegate, BLCAwesomeFloatingToolbarDelegate>
 
 @property (nonatomic, strong) UIWebView *webView;
 @property (nonatomic, strong) UITextField *urlTextField;
 
-@property (nonatomic, strong) UIButton *backButton;
-@property (nonatomic, strong) UIButton *forwardButton;
-@property (nonatomic, strong) UIButton *stopButton;
-@property (nonatomic, strong) UIButton *reloadButton;
-
 @property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
+
+@property (nonatomic, strong) BLCAwesomeFloatingToolbar *awesomeToolbar;
 
 @property (nonatomic, assign) BOOL isLoading;
 
@@ -64,35 +67,19 @@
     
     self.urlTextField.delegate = self;
     
+    self.awesomeToolbar = [[BLCAwesomeFloatingToolbar alloc] initWithFourTitles:@[kBLCWebBrowserBackString, kBLCWebBrowserForwardString, kBLCWebBrowserStopString, kBLCWebBrowserRefreshString]];
     
-    self.backButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    [self.backButton setEnabled:NO];
+    self.awesomeToolbar.delegate = self;
     
-    self.forwardButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    [self.forwardButton setEnabled:NO];
-    
-    self.stopButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    [self.stopButton setEnabled:NO];
-    
-    self.reloadButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    [self.reloadButton setEnabled:NO];
-    
-    [self.backButton setTitle:NSLocalizedString(@"Back", @"Back comnmand") forState:UIControlStateNormal];
-    
-    [self.forwardButton setTitle:NSLocalizedString(@"Forward", @"Forward comnmand") forState:UIControlStateNormal];
-    
-    [self.stopButton setTitle:NSLocalizedString(@"Stop", @"Stop comnmand") forState:UIControlStateNormal];
-    
-    [self.reloadButton setTitle:NSLocalizedString(@"Refresh", @"Reload comnmand") forState:UIControlStateNormal];
-    
-    [mainView addSubview:self.webView];
-    [mainView addSubview:self.urlTextField];
-    
-    [self addButtonTargets];
+//    [mainView addSubview:self.webView];
+//    [mainView addSubview:self.urlTextField];
 
-    for (UIView *viewToAdd in @[self.webView, self.urlTextField, self.backButton, self.forwardButton, self.stopButton, self.reloadButton]) {
+
+    for (UIView *viewToAdd in @[self.webView, self.urlTextField, self.awesomeToolbar]) {
         [mainView addSubview:viewToAdd];
     }
+    
+    
     
     self.view = mainView;
     
@@ -109,20 +96,12 @@
     
     CGFloat width = CGRectGetWidth(self.view.bounds);
     
-    CGFloat browserHeight = CGRectGetHeight(self.view.bounds) - itemHeight - itemHeight;
-    
-    CGFloat buttonWidth = CGRectGetWidth(self.view.bounds) / 4;
+    CGFloat browserHeight = CGRectGetHeight(self.view.bounds) - itemHeight;
     
     self.urlTextField.frame = CGRectMake(0, 0, width, (itemHeight - 10));
     self.webView.frame = CGRectMake(0, CGRectGetMaxY(self.urlTextField.frame), width, browserHeight);
     
-    CGFloat currentButtonX = 0;
-    
-    for (UIButton *thisButton in @[self.backButton, self.forwardButton, self.stopButton, self.reloadButton]) {
-        thisButton.frame = CGRectMake(currentButtonX, CGRectGetMaxY(self.webView.frame), buttonWidth, itemHeight);
-        currentButtonX += buttonWidth;
-    }
-    
+    self.awesomeToolbar.frame = CGRectMake(20, 100, 280, 60);
 }
 
 
@@ -212,24 +191,12 @@
     
     self.webView = newWebView;
     
-//    [self addButtonTargets];
-    
     self.urlTextField.text = nil;
     [self updateButtonsAndTitle];
     
 }
 
 
-- (void) addButtonTargets {
-    for (UIButton *button in @[self.backButton, self.forwardButton, self.stopButton, self.reloadButton]) {
-        [button removeTarget:nil action:NULL forControlEvents:UIControlEventTouchUpInside];
-    }
-    
-    [self.backButton addTarget:self.webView action:@selector(goBack) forControlEvents:UIControlEventTouchUpInside];
-    [self.forwardButton addTarget:self.webView action:@selector(goForward) forControlEvents:UIControlEventTouchUpInside];
-    [self.stopButton addTarget:self.webView action:@selector(stopLoading) forControlEvents:UIControlEventTouchUpInside];
-    [self.reloadButton addTarget:self.webView action:@selector(reload) forControlEvents:UIControlEventTouchUpInside];
-}
 
 -(void)updateButtonsAndTitle {
     
@@ -248,10 +215,10 @@
     }
     
     
-    self.backButton.enabled = [self.webView canGoBack];
-    self.forwardButton.enabled = [self.webView canGoForward];
-    self.stopButton.enabled = self.frameCount > 0;
-    self.reloadButton.enabled = self.webView.request.URL && self.frameCount == 0;
+    [self.awesomeToolbar setEnabled:[self.webView canGoBack] forButtonWithTitle:kBLCWebBrowserBackString];
+    [self.awesomeToolbar setEnabled:[self.webView canGoForward] forButtonWithTitle:kBLCWebBrowserForwardString];
+    [self.awesomeToolbar setEnabled:self.frameCount > 0 forButtonWithTitle:kBLCWebBrowserStopString];
+    [self.awesomeToolbar setEnabled:self.webView.request.URL && self.frameCount == 0 forButtonWithTitle:kBLCWebBrowserRefreshString];
     
     
 }
@@ -278,5 +245,21 @@
 }
 
 
+- (void) floatingToolbar:(BLCAwesomeFloatingToolbar *)toolbar didSelectButtonWithTitle:(NSString *)title {
+    
+    if ([title isEqual:NSLocalizedString(@"Back", @"Back command")]) {
+        [self.webView goBack];
+    }
+    else if ([title isEqual:NSLocalizedString(@"Forward", @"Forward command")]) {
+        [self.webView goForward];
+    }
+    else if ([title isEqual:NSLocalizedString(@"Stop", @"Stop command")]) {
+        [self.webView stopLoading];
+    }
+    else if ([title isEqual:NSLocalizedString(@"Refresh", @"Reload command")]) {
+        [self.webView reload];
+    }
+    
+}
 
 @end

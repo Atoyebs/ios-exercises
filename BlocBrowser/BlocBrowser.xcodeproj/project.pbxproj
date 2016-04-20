@@ -14,6 +14,7 @@
 		8159C1311CC6A50F007260DE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8159C12F1CC6A50F007260DE /* LaunchScreen.storyboard */; };
 		8159C13C1CC6A510007260DE /* BlocBrowserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8159C13B1CC6A510007260DE /* BlocBrowserTests.m */; };
 		8159C1471CC6A510007260DE /* BlocBrowserUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8159C1461CC6A510007260DE /* BlocBrowserUITests.m */; };
+		8195D9E81CC7AF2200603E90 /* BLCAwesomeFloatingToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 8195D9E71CC7AF2200603E90 /* BLCAwesomeFloatingToolbar.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,8 @@
 		8159C1421CC6A510007260DE /* BlocBrowserUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BlocBrowserUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8159C1461CC6A510007260DE /* BlocBrowserUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BlocBrowserUITests.m; sourceTree = "<group>"; };
 		8159C1481CC6A510007260DE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8195D9E61CC7AF2200603E90 /* BLCAwesomeFloatingToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLCAwesomeFloatingToolbar.h; sourceTree = "<group>"; };
+		8195D9E71CC7AF2200603E90 /* BLCAwesomeFloatingToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLCAwesomeFloatingToolbar.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,10 +102,10 @@
 		8159C1201CC6A50F007260DE /* BlocBrowser */ = {
 			isa = PBXGroup;
 			children = (
+				8195D9E51CC7AEFB00603E90 /* Custom UI Elements */,
+				8195D9E41CC7AEE700603E90 /* View Controllers */,
 				8159C1241CC6A50F007260DE /* AppDelegate.h */,
 				8159C1251CC6A50F007260DE /* AppDelegate.m */,
-				8159C1271CC6A50F007260DE /* BLCWebBrowserViewController.h */,
-				8159C1281CC6A50F007260DE /* BLCWebBrowserViewController.m */,
 				8159C12D1CC6A50F007260DE /* Assets.xcassets */,
 				8159C12F1CC6A50F007260DE /* LaunchScreen.storyboard */,
 				8159C1321CC6A50F007260DE /* Info.plist */,
@@ -135,6 +138,24 @@
 				8159C1481CC6A510007260DE /* Info.plist */,
 			);
 			path = BlocBrowserUITests;
+			sourceTree = "<group>";
+		};
+		8195D9E41CC7AEE700603E90 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				8159C1271CC6A50F007260DE /* BLCWebBrowserViewController.h */,
+				8159C1281CC6A50F007260DE /* BLCWebBrowserViewController.m */,
+			);
+			name = "View Controllers";
+			sourceTree = "<group>";
+		};
+		8195D9E51CC7AEFB00603E90 /* Custom UI Elements */ = {
+			isa = PBXGroup;
+			children = (
+				8195D9E61CC7AF2200603E90 /* BLCAwesomeFloatingToolbar.h */,
+				8195D9E71CC7AF2200603E90 /* BLCAwesomeFloatingToolbar.m */,
+			);
+			name = "Custom UI Elements";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -269,6 +290,7 @@
 				8159C1291CC6A50F007260DE /* BLCWebBrowserViewController.m in Sources */,
 				8159C1261CC6A50F007260DE /* AppDelegate.m in Sources */,
 				8159C1231CC6A50F007260DE /* main.m in Sources */,
+				8195D9E81CC7AF2200603E90 /* BLCAwesomeFloatingToolbar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
