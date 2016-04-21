@@ -8,9 +8,13 @@
 
 #import "BLCImagesTableViewController.h"
 
+#import "BLCDataSource.h"
+#import "BLCMedia.h"
+#import "BLCUser.h"
+#import "BLCComment.h"
+
 @interface BLCImagesTableViewController ()
 
-@property (nonatomic, strong) NSMutableArray *images;
 
 @end
 
@@ -25,7 +29,7 @@
     
     
     if (self) {
-        self.images = [NSMutableArray array];
+        
     }
     
     return self;
@@ -39,13 +43,6 @@
     [super viewDidLoad];
     
     //add images to image array
-    for (int i = 0; i <= 10; i++) {
-        NSString *imageName = [NSString stringWithFormat:@"%d.jpg", i];
-        UIImage *image = [UIImage imageNamed:imageName];
-        if (image) {
-            [self.images addObject:image];
-        }
-    }
     
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"imageCell"];
     
@@ -60,7 +57,7 @@
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.images.count;
+    return [self items].count;
 }
 
 
@@ -87,17 +84,21 @@
         
     }
     
-    UIImage *image = self.images[indexPath.row];
-    imageView.image = image;
+    BLCMedia *item = [self items][indexPath.row];
+    imageView.image = item.image;
+    
+    
     
     return cell;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    UIImage *image = self.images[indexPath.row];
+    BLCMedia *item = [self items][indexPath.row];
+    UIImage *image = item.image;
     
-    return (CGRectGetWidth(self.view.frame) / image.size.width) * image.size.height;
+    return image.size.height / image.size.width * CGRectGetWidth(self.view.frame);
+    
 }
 
 
@@ -120,11 +121,11 @@
         
         NSLog(@"Delete Section entered succesfully");
         
-        [self.images removeObjectAtIndex:indexPath.row];
+        [[BLCDataSource sharedInstance] removeObjectAtIndex:indexPath.row];
         
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
         
-        NSLog(@"Image about to be deleted");
+//        NSLog(@"Image about to be deleted");
         
         [self.tableView reloadData];
 //        [self.images removeObjectAtIndex:indexPath.row];
@@ -133,6 +134,11 @@
     else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
     }   
+}
+
+
+-(NSArray*)items {
+    return [[BLCDataSource sharedInstance] mediaItems];
 }
 
 
