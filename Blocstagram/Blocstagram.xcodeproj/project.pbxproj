@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8173BBCE1CCA5FFA00839D26 /* BLCMediaTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8173BBCD1CCA5FFA00839D26 /* BLCMediaTableViewCell.m */; };
 		81FB9DE21CC924D30026965A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 81FB9DE11CC924D30026965A /* main.m */; };
 		81FB9DE51CC924D30026965A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 81FB9DE41CC924D30026965A /* AppDelegate.m */; };
 		81FB9DE81CC924D30026965A /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81FB9DE71CC924D30026965A /* ViewController.m */; };
@@ -50,6 +51,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8173BBCC1CCA5FFA00839D26 /* BLCMediaTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLCMediaTableViewCell.h; sourceTree = "<group>"; };
+		8173BBCD1CCA5FFA00839D26 /* BLCMediaTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLCMediaTableViewCell.m; sourceTree = "<group>"; };
 		81FB9DDD1CC924D30026965A /* Blocstagram.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Blocstagram.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		81FB9DE11CC924D30026965A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		81FB9DE31CC924D30026965A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -113,6 +116,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8173BBCB1CCA5FA900839D26 /* Custom UI Elements */ = {
+			isa = PBXGroup;
+			children = (
+				8173BBCC1CCA5FFA00839D26 /* BLCMediaTableViewCell.h */,
+				8173BBCD1CCA5FFA00839D26 /* BLCMediaTableViewCell.m */,
+			);
+			name = "Custom UI Elements";
+			sourceTree = "<group>";
+		};
 		81FB9DD41CC924D30026965A = {
 			isa = PBXGroup;
 			children = (
@@ -136,6 +148,7 @@
 		81FB9DDF1CC924D30026965A /* Blocstagram */ = {
 			isa = PBXGroup;
 			children = (
+				8173BBCB1CCA5FA900839D26 /* Custom UI Elements */,
 				81FB9E381CC93D180026965A /* Data Source */,
 				81FB9E2E1CC93AAF0026965A /* Models */,
 				81FB9E2A1CC926C20026965A /* View Controllers */,
@@ -369,6 +382,7 @@
 			files = (
 				81FB9DE81CC924D30026965A /* ViewController.m in Sources */,
 				81FB9DE51CC924D30026965A /* AppDelegate.m in Sources */,
+				8173BBCE1CCA5FFA00839D26 /* BLCMediaTableViewCell.m in Sources */,
 				81FB9E341CC93B6C0026965A /* BLCMedia.m in Sources */,
 				81FB9DE21CC924D30026965A /* main.m in Sources */,
 				81FB9E2D1CC926FE0026965A /* BLCImagesTableViewController.m in Sources */,
@@ -592,6 +606,7 @@
 				81FB9E0C1CC924D30026965A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		81FB9E0D1CC924D30026965A /* Build configuration list for PBXNativeTarget "BlocstagramTests" */ = {
 			isa = XCConfigurationList;
@@ -600,6 +615,7 @@
 				81FB9E0F1CC924D30026965A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		81FB9E101CC924D30026965A /* Build configuration list for PBXNativeTarget "BlocstagramUITests" */ = {
 			isa = XCConfigurationList;
@@ -608,6 +624,7 @@
 				81FB9E121CC924D30026965A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
