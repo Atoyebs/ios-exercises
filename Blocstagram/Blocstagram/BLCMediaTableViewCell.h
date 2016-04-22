@@ -6,8 +6,12 @@
 //  Copyright © 2016 bloc. All rights reserved.
 //
 
+@class BLCMedia;
+
 #import <UIKit/UIKit.h>
 
 @interface BLCMediaTableViewCell : UITableViewCell
+
+@property (nonatomic, strong) BLCMedia *mediaItem;
 
 @end

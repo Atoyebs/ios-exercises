@@ -43,13 +43,16 @@
 }
 
 - (void) addRandomData {
+    
     NSMutableArray *randomMediaItems = [NSMutableArray array];
     
     for (int i = 0  ; i <= 10; i++) {
+        
         NSString *imageName = [NSString stringWithFormat:@"%d.jpg", i];
         UIImage *image = [UIImage imageNamed:imageName];
         
         if (image) {
+            
             BLCMedia *media = [[BLCMedia alloc] init];
             media.user = [self randomUser];
             media.image = image;
@@ -72,6 +75,7 @@
 }
 
 - (BLCUser *) randomUser {
+    
     BLCUser *user = [[BLCUser alloc] init];
     
     user.userName = [self randomStringOfLength:arc4random_uniform(10)];
@@ -104,6 +108,7 @@
 }
 
 - (NSString *) randomStringOfLength:(NSUInteger) len {
+    
     NSString *alphabet = @"abcdefghijklmnopqrstuvwxyz";
     
     NSMutableString *s = [NSMutableString string];

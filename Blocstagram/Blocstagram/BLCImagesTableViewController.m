@@ -12,6 +12,7 @@
 #import "BLCMedia.h"
 #import "BLCUser.h"
 #import "BLCComment.h"
+#import "BLCMediaTableViewCell.h"
 
 @interface BLCImagesTableViewController ()
 
@@ -44,7 +45,7 @@
     
     //add images to image array
     
-    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"imageCell"];
+    [self.tableView registerClass:[BLCMediaTableViewCell class] forCellReuseIdentifier:@"mediaCell"];
     
 }
 
@@ -62,32 +63,11 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"imageCell" forIndexPath:indexPath];
-    
-    // Configure the cell...
-    
-    static NSInteger imageViewTag = 1234;
-    
-    UIImageView *imageView = (UIImageView*)[cell.contentView viewWithTag:imageViewTag];
-    
-    if (!imageView) {
-        
-        // This is a new cell, it doesn't have an image view yet
-        imageView = [[UIImageView alloc] init];
-        imageView.contentMode = UIViewContentModeScaleToFill;
-        
-        imageView.frame = cell.contentView.bounds;
-        imageView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-        
-        imageView.tag = imageViewTag;
-        [cell.contentView addSubview:imageView];
-        
-    }
-    
-    BLCMedia *item = [self items][indexPath.row];
-    imageView.image = item.image;
     
     
+    BLCMediaTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"mediaCell" forIndexPath:indexPath];
+    
+    cell.mediaItem = [self items][indexPath.row];
     
     return cell;
 }
@@ -97,7 +77,7 @@
     BLCMedia *item = [self items][indexPath.row];
     UIImage *image = item.image;
     
-    return image.size.height / image.size.width * CGRectGetWidth(self.view.frame);
+    return 300 + (image.size.height / image.size.width * CGRectGetWidth(self.view.frame));
     
 }
 
@@ -138,6 +118,7 @@
 
 
 -(NSArray*)items {
+    
     return [[BLCDataSource sharedInstance] mediaItems];
 }
 
