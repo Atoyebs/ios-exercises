@@ -75,9 +75,8 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     BLCMedia *item = [self items][indexPath.row];
-    UIImage *image = item.image;
     
-    return 300 + (image.size.height / image.size.width * CGRectGetWidth(self.view.frame));
+    return [BLCMediaTableViewCell heightForMediaItem:item width:CGRectGetWidth(self.view.frame)];
     
 }
 
