@@ -18,8 +18,10 @@
 @property (nonatomic, strong) UILabel *commentLabel;
 
 @property (nonatomic, strong) NSLayoutConstraint *imageHeightConstraint;
+@property (nonatomic, strong) NSLayoutConstraint *imageWidthConstraint;
 @property (nonatomic, strong) NSLayoutConstraint *usernameAndCaptionLabelHeightConstraint;
 @property (nonatomic, strong) NSLayoutConstraint *commentLabelHeightConstraint;
+
 
 @end
 
@@ -29,7 +31,9 @@ static UIColor *usernameLabelGray;
 static UIColor *commentLabelGray;
 static UIColor *linkColor;
 static NSParagraphStyle *paragraphStyle;
-
+static BOOL usingHorizontalLayout = YES;
+static CGFloat horizontalLayoutWidthUsedDivisor = 3;
+static CGFloat magazineLayoutWidthUsedDivisor = 1;
 
 
 @implementation BLCMediaTableViewCell
@@ -64,8 +68,6 @@ static NSParagraphStyle *paragraphStyle;
     self.usernameAndCaptionLabel.attributedText = [self usernameAndCaptionString];
     self.commentLabel.attributedText = [self commentString];
     
-    self.imageHeightConstraint.constant = self.mediaItem.image.size.height / self.mediaItem.image.size.width * CGRectGetWidth(self.contentView.bounds);self.imageHeightConstraint.constant = self.mediaItem.image.size.height / self.mediaItem.image.size.width * CGRectGetWidth(self.contentView.bounds);
-    
     [self layoutSubviews];
     
 }
@@ -78,17 +80,14 @@ static NSParagraphStyle *paragraphStyle;
     [super layoutSubviews];
     
     if(self.mediaItem) {
+
+        if (usingHorizontalLayout) {
+            [self setAutoLayoutConstraintsHorizontally];
+        }
+        else {
+            [self setAutoLayoutMagazineCover];
+        }
         
-        CGSize maxSize = CGSizeMake(CGRectGetWidth(self.bounds), CGFLOAT_MAX);
-        CGSize usernameLabelSize = [self.usernameAndCaptionLabel sizeThatFits:maxSize];
-        CGSize commentLabelSize = [self.commentLabel sizeThatFits:maxSize];
-        
-//        self.usernameAndCaptionLabelHeightConstraint.constant = usernameLabelSize.height + 20;
-//        self.commentLabelHeightConstraint.constant = commentLabelSize.height + 20;
-        
-        
-//        self.usernameAndCaptionLabelHeightConstraint.constant = usernameLabelSize.height;
-//        self.commentLabelHeightConstraint.constant = commentLabelSize.height;
         
         // Hide the line between cells
         self.separatorInset = UIEdgeInsetsMake(0, 0, 0, CGRectGetWidth(self.bounds));
@@ -136,9 +135,7 @@ static NSParagraphStyle *paragraphStyle;
         }
 
         
-        [self setAutoLayoutConstraintsHorizontally];
-        
-        //[self setAutoLayoutMagazineCover];
+
         
     }
     return self;
@@ -148,24 +145,22 @@ static NSParagraphStyle *paragraphStyle;
 - (void)setAutoLayoutConstraintsHorizontally {
     
     NSDictionary *viewDictionary = NSDictionaryOfVariableBindings(_mediaImageView, _usernameAndCaptionLabel, _commentLabel);
-    
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_mediaImageView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeWidth multiplier:0.5 constant:0.0]];
 
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_usernameAndCaptionLabel attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:_mediaImageView attribute:NSLayoutAttributeWidth multiplier:0.5 constant:0.0]];
+    CGFloat quaterWidth = (CGRectGetWidth(self.contentView.bounds))/horizontalLayoutWidthUsedDivisor;
     
-  [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_commentLabel attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:_mediaImageView attribute:NSLayoutAttributeWidth multiplier:0.5 constant:0.0]];
+    self.imageHeightConstraint = [NSLayoutConstraint constraintWithItem:_mediaImageView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeHeight multiplier:1 constant:0.0];
+    
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_mediaImageView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeWidth multiplier:0 constant:quaterWidth]];
+    
+    //label constraints
+    
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_usernameAndCaptionLabel attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:_mediaImageView attribute:NSLayoutAttributeWidth multiplier:1 constant:0.0]];
+    
+  [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_commentLabel attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:_mediaImageView attribute:NSLayoutAttributeWidth multiplier:1 constant:0.0]];
     
     [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_mediaImageView][_usernameAndCaptionLabel][_commentLabel]" options:kNilOptions metrics:nil views:viewDictionary]];
     
     
-    
-    self.imageHeightConstraint = [NSLayoutConstraint constraintWithItem:_mediaImageView
-                                                              attribute:NSLayoutAttributeHeight
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:nil
-                                                              attribute:NSLayoutAttributeNotAnAttribute
-                                                             multiplier:1
-                                                               constant:100];
     
     self.usernameAndCaptionLabelHeightConstraint = [NSLayoutConstraint constraintWithItem:_usernameAndCaptionLabel
                                                                                 attribute:NSLayoutAttributeHeight
@@ -238,6 +233,8 @@ static NSParagraphStyle *paragraphStyle;
     
 }
 
+
+
 - (NSAttributedString *) commentString {
     
     NSMutableAttributedString *commentString = [[NSMutableAttributedString alloc] init];
@@ -276,8 +273,21 @@ static NSParagraphStyle *paragraphStyle;
     [layoutCell setNeedsLayout];
     [layoutCell layoutIfNeeded];
     
-    // The height will be wherever the bottom of the comments label is
-    return CGRectGetMaxY(layoutCell.commentLabel.frame);
+    CGFloat heightForCell = [BLCMediaTableViewCell calculateHeightForMediaItemIsHorizontalLayout:usingHorizontalLayout forCell:layoutCell withMediaItem:mediaItem];
+    
+    return heightForCell;
+    
+}
+
++(CGFloat)calculateHeightForMediaItemIsHorizontalLayout:(BOOL)isHorizontalLayout forCell:(UITableViewCell*)layoutCell withMediaItem:(BLCMedia*)mediaItem {
+    
+    CGFloat layoutDivisorToUse = (isHorizontalLayout) ? horizontalLayoutWidthUsedDivisor : magazineLayoutWidthUsedDivisor;
+    
+    CGFloat widthToUseForCalculation = layoutCell.frame.size.width/layoutDivisorToUse;
+    
+    CGFloat mediaItemRatio = mediaItem.image.size.height / mediaItem.image.size.width;
+    
+    return (widthToUseForCalculation * mediaItemRatio);
     
 }
 
