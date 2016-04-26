@@ -13,13 +13,18 @@
 #import "BLCComment.h"
 
 
-@interface BLCDataSource()
+@interface BLCDataSource() {
+    
+    NSMutableArray *_mediaItems;
+    
+}
 
-@property (nonatomic, strong) NSArray *mediaItems;
 
 @end
 
 @implementation BLCDataSource
+
+#pragma mark - Class Constructors
 
 + (instancetype) sharedInstance {
     
@@ -41,6 +46,9 @@
     
     return self;
 }
+
+
+
 
 - (void) addRandomData {
     
@@ -71,7 +79,7 @@
         }
     }
     
-    self.mediaItems = randomMediaItems;
+    _mediaItems = randomMediaItems;
 }
 
 - (BLCUser *) randomUser {
@@ -121,13 +129,47 @@
 }
 
 
--(void)removeObjectAtIndex:(NSInteger)index {
+#pragma mark - Data Source (Accessor) Utitlity Methods
+
+- (NSUInteger) countOfMediaItems {
+    return self.mediaItems.count;
+}
+
+- (id) objectInMediaItemsAtIndex:(NSUInteger)index {
+    return [self.mediaItems objectAtIndex:index];
+}
+
+- (NSArray *) mediaItemsAtIndexes:(NSIndexSet *)indexes {
+    return [self.mediaItems objectsAtIndexes:indexes];
+}
+
+//-(void)removeObjectAtIndex:(NSInteger)index {
+//    
+//    NSMutableArray *copyOfOriginalMediItemsArray = [self.mediaItems mutableCopy];
+//    
+//    [copyOfOriginalMediItemsArray removeObjectAtIndex:index];
+//    
+//    self.mediaItems = copyOfOriginalMediItemsArray;
+//}
+
+
+
+- (void)deleteMediaItem:(BLCMedia *)item {
     
-    NSMutableArray *copyOfOriginalMediItemsArray = [self.mediaItems mutableCopy];
-    
-    [copyOfOriginalMediItemsArray removeObjectAtIndex:index];
-    
-    self.mediaItems = copyOfOriginalMediItemsArray;
+    NSMutableArray *mutableArrayWithKVO = [self mutableArrayValueForKey:@"mediaItems"];
+    [mutableArrayWithKVO removeObject:item];
+}
+
+- (void) insertObject:(BLCMedia *)object inMediaItemsAtIndex:(NSUInteger)index {
+    [_mediaItems insertObject:object atIndex:index];
+}
+
+- (void) removeObjectFromMediaItemsAtIndex:(NSUInteger)index {
+    [_mediaItems removeObjectAtIndex:index];
+}
+
+- (void) replaceObjectInMediaItemsAtIndex:(NSUInteger)index withObject:(id)object {
+    [_mediaItems replaceObjectAtIndex:index withObject:object];
 }
 
 @end
