@@ -197,11 +197,10 @@
     
 }
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+-(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    //this delegate method only fires when the scrolling is at a near stop
     [self infiniteScrollIfNecessary];
 }
-
-
 
 /*
 // Override to support rearranging the table view.
