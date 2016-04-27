@@ -6,17 +6,30 @@
 //  Copyright © 2016 bloc. All rights reserved.
 //
 
+#import <Foundation/Foundation.h>
+
 @class BLCMedia;
 
-#import <Foundation/Foundation.h>
+
+typedef void (^BLCNewItemCompletionBlock)(NSError *error);
+
+
 
 @interface BLCDataSource : NSObject
 
+
+#pragma mark - Methods
+
 +(instancetype)sharedInstance;
 
--(void)removeObjectAtIndex:(NSInteger)index;
-
 -(void)deleteMediaItem:(BLCMedia *)item;
+
+-(void)requestNewItemsWithCompletionHandler:(BLCNewItemCompletionBlock)completionHandler;
+
+-(void)requestOldItemsWithCompletionHandler:(BLCNewItemCompletionBlock)completionHandler;
+
+
+#pragma mark - Properties
 
 @property (nonatomic, strong, readonly) NSArray *mediaItems;
 

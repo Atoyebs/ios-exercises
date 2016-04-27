@@ -19,8 +19,13 @@
     
 }
 
+@property (nonatomic, assign) BOOL isRefreshing;
+
+@property (nonatomic, assign) BOOL isLoadingOlderItems;
 
 @end
+
+
 
 @implementation BLCDataSource
 
@@ -48,7 +53,7 @@
 }
 
 
-
+#pragma mark - Funcitons Using Random
 
 - (void) addRandomData {
     
@@ -129,6 +134,39 @@
 }
 
 
+- (NSString*)randomSentenceWithMaximumNumberOfWords:(NSUInteger)maximumNumberOfWords {
+
+    NSMutableString *sentence = [NSMutableString new];
+    static int minimumNumberOfWords = 2;
+    static int minimumNumberOfLettersInWord = 3;
+    int numberOfWords = arc4random_uniform(maximumNumberOfWords - minimumNumberOfWords) + minimumNumberOfWords;
+    int numberOfLetters = 0;
+    
+    for (int i = 0; i < numberOfWords; i++) {
+        
+        //generate the number of letters this string is going to have for this iteration
+        numberOfLetters = arc4random_uniform(maximumNumberOfWords - minimumNumberOfLettersInWord) + minimumNumberOfLettersInWord;
+        [sentence appendString:[self randomStringOfLength:numberOfLetters]];
+        
+        if (i != (numberOfWords -1)) {
+            [sentence appendString:@" "];
+        }
+    }
+    
+    return sentence;
+}
+
+
++ (NSString *) getRandomImageWithNameAsNumberBetween:(int)from to:(int)upperBound withExtension:(NSString*)ext {
+    
+    int randomNumberGenerated = arc4random_uniform(upperBound) + from;
+    
+    NSString *generatedImageName = [NSString stringWithFormat:@"%d.%@", randomNumberGenerated, ext];
+    
+    return generatedImageName;
+}
+
+
 #pragma mark - Data Source (Accessor) Utitlity Methods
 
 - (NSUInteger) countOfMediaItems {
@@ -142,17 +180,6 @@
 - (NSArray *) mediaItemsAtIndexes:(NSIndexSet *)indexes {
     return [self.mediaItems objectsAtIndexes:indexes];
 }
-
-//-(void)removeObjectAtIndex:(NSInteger)index {
-//    
-//    NSMutableArray *copyOfOriginalMediItemsArray = [self.mediaItems mutableCopy];
-//    
-//    [copyOfOriginalMediItemsArray removeObjectAtIndex:index];
-//    
-//    self.mediaItems = copyOfOriginalMediItemsArray;
-//}
-
-
 
 - (void)deleteMediaItem:(BLCMedia *)item {
     
@@ -170,6 +197,54 @@
 
 - (void) replaceObjectInMediaItemsAtIndex:(NSUInteger)index withObject:(id)object {
     [_mediaItems replaceObjectAtIndex:index withObject:object];
+}
+
+
+#pragma mark - Completion Handlers
+
+-(void)requestNewItemsWithCompletionHandler:(BLCNewItemCompletionBlock)completionHandler {
+    
+    if (self.isRefreshing == NO) {
+        
+        self.isRefreshing = YES;
+        BLCMedia *media = [[BLCMedia alloc] init];
+        media.user = [self randomUser];
+        NSString *randomImageName = [BLCDataSource getRandomImageWithNameAsNumberBetween:0 to:10 withExtension:@"jpg"];
+        media.image = [UIImage imageNamed:randomImageName];
+        media.caption = [self randomSentenceWithMaximumNumberOfWords:7];
+        
+        NSMutableArray *mutableArrayWithKVO = [self mutableArrayValueForKey:@"mediaItems"];
+        [mutableArrayWithKVO insertObject:media atIndex:0];
+        
+        self.isRefreshing = NO;
+        
+        if (completionHandler) {
+            completionHandler(nil);
+        }
+    }
+    
+}
+
+- (void) requestOldItemsWithCompletionHandler:(BLCNewItemCompletionBlock)completionHandler {
+    
+    if (self.isLoadingOlderItems == NO) {
+        
+        self.isLoadingOlderItems = YES;
+        BLCMedia *media = [[BLCMedia alloc] init];
+        media.user = [self randomUser];
+        NSString *randomImageName = [BLCDataSource getRandomImageWithNameAsNumberBetween:0 to:10 withExtension:@"jpg"];
+        media.image = [UIImage imageNamed:randomImageName];
+        media.caption = [self randomSentenceWithMaximumNumberOfWords:7];
+        
+        NSMutableArray *mutableArrayWithKVO = [self mutableArrayValueForKey:@"mediaItems"];
+        [mutableArrayWithKVO addObject:media];
+        
+        self.isLoadingOlderItems = NO;
+        
+        if (completionHandler) {
+            completionHandler(nil);
+        }
+    }
 }
 
 @end
