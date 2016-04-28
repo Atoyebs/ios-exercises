@@ -78,6 +78,9 @@ NSString *const BLCLoginViewControllerDidGetAccessTokenNotification = @"BLCLogin
     
 }
 
+
+#pragma mark - Web Delegate Methods
+
 - (BOOL) webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
     
     NSString *urlString = request.URL.absoluteString;
@@ -97,26 +100,14 @@ NSString *const BLCLoginViewControllerDidGetAccessTokenNotification = @"BLCLogin
     return YES;
 }
 
-
--(void)updateNavigationBarBackButton {
-    
-    //if the leftBarButtonItem is empty/nil NOT Initialized/Created
-    
-    UIBarButtonItem *barButtonItemCustomImage = [self generateLeftBarButtonItemWithImageNamed:@"back_arrow"];
-    
-    if(self.webView.canGoBack) {
-    
-        if (!self.navigationItem.leftBarButtonItem) {
-            [self.navigationItem setHidesBackButton:YES animated:YES];
-            [self.navigationItem setLeftBarButtonItem:barButtonItemCustomImage animated:YES];
-        }
-    }
-    else {
-        [self.navigationItem setLeftBarButtonItem:nil animated:YES];
-//        [self.navigationItem setHidesBackButton:NO animated:NO];
-    }
-    
+- (void)webViewDidFinishLoad:(UIWebView *)webView
+{
+    NSString* title = [webView stringByEvaluatingJavaScriptFromString: @"document.title"];
+    self.navigationItem.title = title;
 }
+
+
+#pragma mark - Actions/Trigger Methods
 
 - (void)backWasClicked:(id)sender {
     if ([self.webView canGoBack]) {
@@ -125,6 +116,8 @@ NSString *const BLCLoginViewControllerDidGetAccessTokenNotification = @"BLCLogin
 }
 
 
+
+#pragma mark - Helper Methods
 
 - (NSString *)redirectURI {
     return @"http://bloc.io";
@@ -163,5 +156,26 @@ NSString *const BLCLoginViewControllerDidGetAccessTokenNotification = @"BLCLogin
     //return the newly created UIBarButtonItem
     return barButtonLeft;
 }
+
+-(void)updateNavigationBarBackButton {
+    
+    //if the leftBarButtonItem is empty/nil NOT Initialized/Created
+    
+    UIBarButtonItem *barButtonItemCustomImage = [self generateLeftBarButtonItemWithImageNamed:@"back_arrow"];
+    
+    if(self.webView.canGoBack) {
+        
+        if (!self.navigationItem.leftBarButtonItem) {
+            [self.navigationItem setHidesBackButton:YES animated:YES];
+            [self.navigationItem setLeftBarButtonItem:barButtonItemCustomImage animated:YES];
+        }
+    }
+    else {
+        [self.navigationItem setLeftBarButtonItem:nil animated:YES];
+        //        [self.navigationItem setHidesBackButton:NO animated:NO];
+    }
+    
+}
+
 
 @end
