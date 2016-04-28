@@ -28,11 +28,13 @@ typedef void (^BLCNewItemCompletionBlock)(NSError *error);
 
 -(void)requestOldItemsWithCompletionHandler:(BLCNewItemCompletionBlock)completionHandler;
 
++ (NSString *) instagramClientID;
+
 
 #pragma mark - Properties
 
 @property (nonatomic, strong, readonly) NSArray *mediaItems;
 
-
+@property (nonatomic, strong, readonly) NSString *accessToken;
 
 @end

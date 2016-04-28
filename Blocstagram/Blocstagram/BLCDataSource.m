@@ -7,6 +7,7 @@
 //
 
 #import "BLCDataSource.h"
+#import "BLCLoginViewController.h"
 
 #import "BLCUser.h"
 #import "BLCMedia.h"
@@ -22,6 +23,8 @@
 @property (nonatomic, assign) BOOL isRefreshing;
 
 @property (nonatomic, assign) BOOL isLoadingOlderItems;
+
+@property (nonatomic, strong) NSString *accessToken;
 
 @end
 
@@ -46,15 +49,28 @@
     self = [super init];
     
     if (self) {
-        [self addRandomData];
+        [self registerForAccessTokenNotification];
     }
     
     return self;
 }
 
 
+- (void) registerForAccessTokenNotification {
+
+    [[NSNotificationCenter defaultCenter] addObserverForName:BLCLoginViewControllerDidGetAccessTokenNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
+        
+        self.accessToken = note.object;
+        
+        [self populateDataWithParameters:nil];
+    }];
+
+}
+
+
 #pragma mark - Funcitons Using Random
 
+/*
 - (void) addRandomData {
     
     NSMutableArray *randomMediaItems = [NSMutableArray array];
@@ -133,7 +149,6 @@
     return [NSString stringWithString:s];
 }
 
-
 - (NSString*)randomSentenceWithMaximumNumberOfWords:(NSUInteger)maximumNumberOfWords {
 
     NSMutableString *sentence = [NSMutableString new];
@@ -155,6 +170,49 @@
     
     return sentence;
 }
+*/
+
+- (void) populateDataWithParameters:(NSDictionary *)parameters {
+    if (self.accessToken) {
+        // only try to get the data if there's an access token
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+            // do the network request in the background, so the UI doesn't lock up
+            
+            NSMutableString *urlString = [NSMutableString stringWithFormat:@"https://api.instagram.com/v1/users/self/feed?access_token=%@", self.accessToken];
+            
+            for (NSString *parameterName in parameters) {
+                // for example, if dictionary contains {count: 50}, append `&count=50` to the URL
+                [urlString appendFormat:@"&%@=%@", parameterName, parameters[parameterName]];
+            }
+            
+            NSURL *url = [NSURL URLWithString:urlString];
+            
+            if (url) {
+                NSURLRequest *request = [NSURLRequest requestWithURL:url];
+                
+                NSURLResponse *response;
+                NSError *webError;
+                NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&webError];
+                
+                NSError *jsonError;
+                NSDictionary *feedDictionary = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:&jsonError];
+                
+                if (feedDictionary) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        // done networking, go back on the main thread
+                        [self parseDataFromFeedDictionary:feedDictionary fromRequestWithParameters:parameters];
+                    });
+                }
+            }
+        });
+    }
+}
+
+
+- (void) parseDataFromFeedDictionary:(NSDictionary *) feedDictionary fromRequestWithParameters:(NSDictionary *)parameters {
+    NSLog(@"%@", feedDictionary);
+}
 
 
 + (NSString *) getRandomImageWithNameAsNumberBetween:(int)from to:(int)upperBound withExtension:(NSString*)ext {
@@ -165,6 +223,15 @@
     
     return generatedImageName;
 }
+
+
+#pragma mark - Instagram Authentication Methods
+
++ (NSString *) instagramClientID {
+    return @"e3f743d478bc4aafb7309c1b572e8964";
+}
+
+
 
 
 #pragma mark - Data Source (Accessor) Utitlity Methods
@@ -207,37 +274,26 @@
     if (self.isRefreshing == NO) {
         
         self.isRefreshing = YES;
-        BLCMedia *media = [[BLCMedia alloc] init];
-        media.user = [self randomUser];
-        NSString *randomImageName = [BLCDataSource getRandomImageWithNameAsNumberBetween:0 to:10 withExtension:@"jpg"];
-        media.image = [UIImage imageNamed:randomImageName];
-        media.caption = [self randomSentenceWithMaximumNumberOfWords:7];
-        
-        NSMutableArray *mutableArrayWithKVO = [self mutableArrayValueForKey:@"mediaItems"];
-        [mutableArrayWithKVO insertObject:media atIndex:0];
+       
+        //Need to add images here
         
         self.isRefreshing = NO;
         
         if (completionHandler) {
             completionHandler(nil);
         }
+        
     }
     
 }
 
-- (void) requestOldItemsWithCompletionHandler:(BLCNewItemCompletionBlock)completionHandler {
+-(void)requestOldItemsWithCompletionHandler:(BLCNewItemCompletionBlock)completionHandler {
     
     if (self.isLoadingOlderItems == NO) {
         
         self.isLoadingOlderItems = YES;
-        BLCMedia *media = [[BLCMedia alloc] init];
-        media.user = [self randomUser];
-        NSString *randomImageName = [BLCDataSource getRandomImageWithNameAsNumberBetween:0 to:10 withExtension:@"jpg"];
-        media.image = [UIImage imageNamed:randomImageName];
-        media.caption = [self randomSentenceWithMaximumNumberOfWords:7];
         
-        NSMutableArray *mutableArrayWithKVO = [self mutableArrayValueForKey:@"mediaItems"];
-        [mutableArrayWithKVO addObject:media];
+        //Need to add images here
         
         self.isLoadingOlderItems = NO;
         

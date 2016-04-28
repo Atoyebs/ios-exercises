@@ -147,6 +147,7 @@
             
             // Convert this NSIndexSet to an NSArray of NSIndexPaths (which is what the table view animation methods require)
             NSMutableArray *indexPathsThatChanged = [NSMutableArray array];
+            
             [indexSetOfChanges enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
                 NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:idx inSection:0];
                 [indexPathsThatChanged addObject:newIndexPath];
